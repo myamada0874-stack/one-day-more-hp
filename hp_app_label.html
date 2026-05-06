@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>名札・ラベル作成アプリ | ONE DAY MORE</title>
+<style>
+:root {
+  --bg: #ffffff; --bg-soft: #f8fafc; --bg-section: #f1f5f9;
+  --text: #1f2937; --text-soft: #64748b; --text-muted: #94a3b8;
+  --accent: #f97316; --accent-dark: #ea580c; --accent-soft: #ffedd5;
+  --border: #e5e7eb;
+  --shadow: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-lg: 0 10px 30px rgba(0,0,0,0.08);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans JP', sans-serif; color: var(--text); background: var(--bg); line-height: 1.7; }
+a { color: inherit; text-decoration: none; }
+
+.header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+.header-inner { max-width: 1100px; margin: 0 auto; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 18px; font-weight: 800; }
+.logo .accent { color: var(--accent); }
+.nav { display: flex; gap: 28px; }
+.nav a { font-size: 14px; color: var(--text-soft); }
+.nav a:hover, .nav a.active { color: var(--accent); }
+.nav-cta { padding: 8px 20px; background: var(--accent); color: white !important; border-radius: 999px; font-weight: 600 !important; }
+.menu-btn { display: none; background: none; border: none; font-size: 22px; cursor: pointer; }
+@media (max-width: 720px) { .nav { display: none; } .menu-btn { display: block; } }
+
+.app-hero {
+  padding: 60px 24px 80px;
+  background: linear-gradient(135deg, #fff7ed 0%, #fef9c3 100%);
+}
+.app-hero-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+@media (max-width: 800px) { .app-hero-inner { grid-template-columns: 1fr; gap: 40px; } }
+.breadcrumb { font-size: 12px; color: var(--text-muted); margin-bottom: 24px; }
+.breadcrumb a { color: var(--text-soft); }
+.app-icon-large { width: 80px; height: 80px; background: var(--accent-soft); border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 44px; margin-bottom: 20px; }
+.app-tagline { display: inline-block; padding: 4px 12px; background: var(--accent-soft); color: var(--accent-dark); border-radius: 999px; font-size: 12px; font-weight: 600; margin-bottom: 16px; }
+.app-title { font-size: clamp(28px, 5vw, 44px); font-weight: 800; line-height: 1.3; margin-bottom: 16px; }
+.app-subtitle { font-size: 16px; color: var(--text-soft); margin-bottom: 32px; line-height: 1.8; }
+.app-price-block { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 24px; box-shadow: var(--shadow); margin-bottom: 24px; }
+.app-price-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+.app-price { font-size: 32px; font-weight: 800; }
+.app-price small { font-size: 14px; font-weight: 500; color: var(--text-soft); }
+.app-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn { padding: 14px 28px; border-radius: 999px; font-size: 15px; font-weight: 600; cursor: pointer; border: 2px solid transparent; transition: all 0.25s; display: inline-flex; align-items: center; gap: 8px; font-family: inherit; }
+.btn-primary { background: var(--accent); color: white; }
+.btn-primary:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 10px 25px rgba(249,115,22,0.3); }
+.btn-secondary { background: white; color: var(--text); border-color: var(--border); }
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+.app-meta { display: flex; gap: 24px; font-size: 13px; color: var(--text-soft); margin-top: 20px; flex-wrap: wrap; }
+.app-meta strong { color: var(--text); }
+
+.app-mockup { background: white; border-radius: 24px; box-shadow: var(--shadow-lg); padding: 12px; border: 1px solid var(--border); }
+.app-mockup-inner { background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%); border-radius: 16px; aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center; font-size: 100px; }
+
+.section { padding: 80px 24px; }
+.section.alt { background: var(--bg-section); }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+.section-label { font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 12px; text-align: center; }
+.section-title { font-size: clamp(24px, 4vw, 36px); font-weight: 800; text-align: center; margin-bottom: 16px; }
+.section-sub { font-size: 15px; color: var(--text-soft); text-align: center; margin-bottom: 60px; }
+
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+.feature-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 32px 28px; transition: all 0.3s; }
+.feature-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.feature-icon { width: 56px; height: 56px; background: var(--accent-soft); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 18px; }
+.feature-title { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+.feature-desc { font-size: 14px; color: var(--text-soft); line-height: 1.8; }
+
+/* 用途 */
+.use-cases { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.use-case {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px;
+  text-align: center;
+}
+.use-case-icon { font-size: 36px; margin-bottom: 12px; }
+.use-case-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+.use-case-desc { font-size: 12px; color: var(--text-soft); }
+
+.screens { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.screen { aspect-ratio: 4/3; background: linear-gradient(135deg, var(--accent-soft), var(--bg-section)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 60px; border: 1px solid var(--border); }
+
+.steps { display: flex; flex-direction: column; gap: 24px; }
+.step { display: grid; grid-template-columns: 80px 1fr; gap: 24px; background: white; border: 1px solid var(--border); border-radius: 16px; padding: 28px; }
+@media (max-width: 600px) { .step { grid-template-columns: 60px 1fr; gap: 16px; padding: 20px; } }
+.step-num { width: 60px; height: 60px; background: var(--accent); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800; }
+@media (max-width: 600px) { .step-num { width: 44px; height: 44px; font-size: 18px; } }
+.step-content h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.step-content p { font-size: 14px; color: var(--text-soft); line-height: 1.8; }
+
+.cta-section { padding: 80px 24px; text-align: center; background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%); color: white; }
+.cta-title { font-size: clamp(22px, 3.5vw, 32px); font-weight: 800; margin-bottom: 16px; }
+.cta-sub { font-size: 15px; opacity: 0.9; margin-bottom: 32px; }
+.cta-section .btn-primary { background: white; color: var(--accent-dark); }
+.cta-section .btn-primary:hover { background: var(--bg-section); }
+
+.footer { background: #0f172a; color: #cbd5e1; padding: 60px 24px 30px; }
+.footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
+@media (max-width: 720px) { .footer-inner { grid-template-columns: 1fr; } }
+.footer-brand .logo { color: white; font-size: 22px; }
+.footer-brand p { margin-top: 12px; font-size: 13px; color: #94a3b8; }
+.footer-col h4 { color: white; font-size: 13px; font-weight: 600; margin-bottom: 16px; }
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: 10px; }
+.footer-col a { color: #94a3b8; font-size: 13px; }
+.footer-col a:hover { color: var(--accent); }
+.footer-bottom { max-width: 1100px; margin: 40px auto 0; padding-top: 24px; border-top: 1px solid #1e293b; text-align: center; font-size: 12px; color: #64748b; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">ONE <span class="accent">DAY</span> MORE</a>
+    <nav class="nav">
+      <a href="index.html#apps" class="active">アプリ</a>
+      <a href="hp_about.html">会社情報</a>
+      <a href="hp_news.html">お知らせ</a>
+      <a href="hp_contact.html" class="nav-cta">お問い合わせ</a>
+    </nav>
+    <button class="menu-btn">☰</button>
+  </div>
+</header>
+
+<section class="app-hero">
+  <div class="app-hero-inner">
+    <div>
+      <div class="breadcrumb"><a href="index.html">ホーム</a> ＞ <a href="index.html#apps">アプリ</a> ＞ 名札・ラベル作成アプリ</div>
+      <div class="app-icon-large">🏷️</div>
+      <span class="app-tagline">事務・式典・イベント向け</span>
+      <h1 class="app-title">名札・ラベル作成アプリ</h1>
+      <p class="app-subtitle">
+        縦書き対応・祝い文字・連名対応。<br>
+        結婚式、披露宴、開店祝い、贈答品の名札を美しく仕上げます。
+      </p>
+      <div class="app-price-block">
+        <div class="app-price-label">通常価格</div>
+        <div class="app-price">¥3,800 <small>(税込)</small></div>
+      </div>
+      <div class="app-buttons">
+        <a href="label-tool.html" class="btn btn-primary">体験版を試す →</a>
+        <a href="#features" class="btn btn-secondary">機能を見る</a>
+      </div>
+      <div class="app-meta">
+        <span><strong>対応OS:</strong> Windows / macOS</span>
+        <span><strong>出力:</strong> Word / PDF / 印刷</span>
+        <span><strong>バージョン:</strong> 1.0</span>
+      </div>
+    </div>
+    <div class="app-mockup">
+      <div class="app-mockup-inner">🏷️</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="section-inner">
+    <div class="section-label">FEATURES</div>
+    <h2 class="section-title">主な機能</h2>
+    <p class="section-sub">業務の現場で本当に必要な機能だけを厳選しました。</p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📜</div>
+        <h3 class="feature-title">縦書き対応</h3>
+        <p class="feature-desc">日本の式典文化に合わせた美しい縦書きレイアウト。文字バランスも自動調整。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎉</div>
+        <h3 class="feature-title">祝い文字テンプレート</h3>
+        <p class="feature-desc">「御祝」「祝御結婚」「開店祝い」など、シーン別の定型文字を即座に呼び出し。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👥</div>
+        <h3 class="feature-title">連名・宛先対応</h3>
+        <p class="feature-desc">送り主の連名、宛先、肩書きを柔軟に配置。会社・部署・役職にも対応。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📐</div>
+        <h3 class="feature-title">用紙サイズ多数対応</h3>
+        <p class="feature-desc">名刺・葉書・各種ラベル用紙に対応。市販の用紙にそのまま印刷できます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📄</div>
+        <h3 class="feature-title">Word/PDF出力</h3>
+        <p class="feature-desc">作成したラベルをWord・PDFで保存。ブラウザから直接印刷もOK。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌙</div>
+        <h3 class="feature-title">ダークモード対応</h3>
+        <p class="feature-desc">作業環境に合わせて切替可能。長時間の作業でも目が疲れにくい設計。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="section-inner">
+    <div class="section-label">USE CASES</div>
+    <h2 class="section-title">こんなシーンで活躍</h2>
+    <p class="section-sub">日々のさまざまな場面でお使いいただけます。</p>
+
+    <div class="use-cases">
+      <div class="use-case">
+        <div class="use-case-icon">💐</div>
+        <div class="use-case-title">結婚式・披露宴</div>
+        <div class="use-case-desc">席札・ウェルカムボード</div>
+      </div>
+      <div class="use-case">
+        <div class="use-case-icon">🎊</div>
+        <div class="use-case-title">開店祝い</div>
+        <div class="use-case-desc">スタンド花の名札</div>
+      </div>
+      <div class="use-case">
+        <div class="use-case-icon">🎁</div>
+        <div class="use-case-title">贈答品</div>
+        <div class="use-case-desc">のし紙・贈り物の札</div>
+      </div>
+      <div class="use-case">
+        <div class="use-case-icon">🏢</div>
+        <div class="use-case-title">企業イベント</div>
+        <div class="use-case-desc">名札・席札・受付サイン</div>
+      </div>
+      <div class="use-case">
+        <div class="use-case-icon">🏫</div>
+        <div class="use-case-title">学校・式典</div>
+        <div class="use-case-desc">来賓名札・座席表</div>
+      </div>
+      <div class="use-case">
+        <div class="use-case-icon">📦</div>
+        <div class="use-case-title">商品ラベル</div>
+        <div class="use-case-desc">ハンドメイド・物販</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-inner">
+    <div class="section-label">SCREENSHOTS</div>
+    <h2 class="section-title">画面イメージ</h2>
+    <p class="section-sub">直感的な操作で、誰でもすぐに使えます。</p>
+
+    <div class="screens">
+      <div class="screen">📝</div>
+      <div class="screen">🏷️</div>
+      <div class="screen">📄</div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="section-inner" style="max-width: 800px;">
+    <div class="section-label">HOW TO USE</div>
+    <h2 class="section-title">使い方は簡単3ステップ</h2>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>用紙サイズを選ぶ</h3>
+          <p>市販の名札用紙やラベル用紙のサイズから選択。サイズに合わせて自動レイアウト。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>文字・宛名を入力</h3>
+          <p>「御祝」などの祝い文字、会社名、宛名、連名などをそれぞれ入力。フォントや大きさも調整可能。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>印刷 or Word/PDF出力</h3>
+          <p>そのまま印刷もOK、Word/PDF保存して別の人に共有もOK。出力の自由度が高いのが特徴。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2 class="cta-title">事務作業に「ちょっとした余白」を</h2>
+  <p class="cta-sub">面倒な名札作成をスマートに、美しく。</p>
+  <a href="hp_contact.html" class="btn btn-primary">ダウンロードする →</a>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">ONE <span style="color: var(--accent);">DAY</span> MORE</div>
+      <p>あなたの一日に、ちょっとした余白を届けるシンプルなPCアプリブランド。</p>
+    </div>
+    <div class="footer-col">
+      <h4>サービス</h4>
+      <ul>
+        <li><a href="hp_app_nail.html">ネイル提案アプリ</a></li>
+        <li><a href="hp_app_label.html">名札・ラベル作成</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>会社情報</h4>
+      <ul>
+        <li><a href="hp_about.html">私たちについて</a></li>
+        <li><a href="hp_news.html">お知らせ</a></li>
+        <li><a href="hp_contact.html">お問い合わせ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>規約・法的情報</h4>
+      <ul>
+        <li><a href="hp_legal.html">特定商取引法</a></li>
+        <li><a href="hp_privacy.html">プライバシーポリシー</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 ONE DAY MORE. All rights reserved.</div>
+</footer>
+
+</body>
+</html>
