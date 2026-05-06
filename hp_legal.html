@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>特定商取引法に基づく表記 | ONE DAY MORE</title>
+<style>
+:root {
+  --bg: #ffffff; --bg-soft: #f8fafc;
+  --text: #1f2937; --text-soft: #64748b; --text-muted: #94a3b8;
+  --accent: #f97316; --accent-dark: #ea580c; --accent-soft: #ffedd5;
+  --border: #e5e7eb;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans JP', sans-serif; color: var(--text); background: var(--bg); line-height: 1.8; }
+a { color: inherit; text-decoration: none; }
+
+.header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+.header-inner { max-width: 1100px; margin: 0 auto; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 18px; font-weight: 800; }
+.logo .accent { color: var(--accent); }
+.nav { display: flex; gap: 28px; }
+.nav a { font-size: 14px; color: var(--text-soft); }
+.nav-cta { padding: 8px 20px; background: var(--accent); color: white !important; border-radius: 999px; font-weight: 600 !important; }
+.menu-btn { display: none; background: none; border: none; font-size: 22px; cursor: pointer; }
+@media (max-width: 720px) { .nav { display: none; } .menu-btn { display: block; } }
+
+.page-hero { padding: 60px 24px 40px; text-align: center; background: var(--bg-soft); }
+.page-hero h1 { font-size: clamp(24px, 4vw, 36px); font-weight: 800; margin-bottom: 8px; }
+.page-hero p { font-size: 14px; color: var(--text-soft); }
+.breadcrumb { font-size: 12px; color: var(--text-muted); margin-bottom: 24px; }
+.breadcrumb a { color: var(--text-soft); }
+
+.content { max-width: 800px; margin: 0 auto; padding: 60px 24px 80px; }
+.legal-table { width: 100%; border-collapse: collapse; background: white; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.legal-table tr { border-bottom: 1px solid var(--border); }
+.legal-table tr:last-child { border-bottom: none; }
+.legal-table th, .legal-table td { padding: 18px 24px; text-align: left; vertical-align: top; font-size: 14px; }
+.legal-table th { background: var(--bg-soft); font-weight: 600; color: var(--text-soft); width: 30%; }
+.legal-table td { color: var(--text); }
+@media (max-width: 600px) { .legal-table th, .legal-table td { padding: 14px 16px; font-size: 13px; } }
+.note { margin-top: 24px; padding: 16px 20px; background: var(--accent-soft); border-radius: 10px; font-size: 13px; color: var(--accent-dark); }
+
+.footer { background: #0f172a; color: #cbd5e1; padding: 40px 24px 24px; }
+.footer-inner { max-width: 1100px; margin: 0 auto; text-align: center; }
+.footer-bottom { font-size: 12px; color: #64748b; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">ONE <span class="accent">DAY</span> MORE</a>
+    <nav class="nav">
+      <a href="index.html#apps">アプリ</a>
+      <a href="hp_about.html">会社情報</a>
+      <a href="hp_news.html">お知らせ</a>
+      <a href="hp_contact.html" class="nav-cta">お問い合わせ</a>
+    </nav>
+    <button class="menu-btn">☰</button>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div style="max-width: 800px; margin: 0 auto;">
+    <div class="breadcrumb"><a href="index.html">ホーム</a> ＞ 特定商取引法に基づく表記</div>
+    <h1>特定商取引法に基づく表記</h1>
+    <p>Specified Commercial Transaction Act</p>
+  </div>
+</section>
+
+<div class="content">
+  <table class="legal-table">
+    <tr><th>販売事業者</th><td>ONE DAY MORE</td></tr>
+    <tr><th>運営責任者</th><td>山田</td></tr>
+    <tr><th>所在地</th><td>東京都内（請求があった場合は遅滞なく開示します）</td></tr>
+    <tr><th>連絡先</th><td><a href="hp_contact.html" style="color: var(--accent);">お問い合わせフォーム</a>よりご連絡ください</td></tr>
+    <tr><th>販売価格</th><td>各商品ページに記載の価格（税込）</td></tr>
+    <tr><th>商品代金以外の必要料金</th><td>インターネット接続料金等はお客様負担となります</td></tr>
+    <tr><th>支払方法</th><td>クレジットカード（VISA / Mastercard / JCB / American Express / Diners Club）</td></tr>
+    <tr><th>支払時期</th><td>商品購入時（カード決済）</td></tr>
+    <tr><th>商品引渡時期</th><td>カード決済完了後、即時にダウンロードURLをご案内します</td></tr>
+    <tr><th>商品引渡方法</th><td>当サイトからのダウンロード（メールでもURLをお送りします）</td></tr>
+    <tr><th>返品・キャンセル</th><td>デジタル商品の特性上、ダウンロード後の返品・返金はお受けできません。<br>動作不具合の場合は個別に対応いたしますので、お問い合わせください。</td></tr>
+    <tr><th>動作環境</th><td>各商品ページに記載の動作環境をご確認ください</td></tr>
+  </table>
+
+  <div class="note">
+    ※住所・電話番号は、ご請求があった場合に遅滞なく開示いたします。お問い合わせフォームよりご連絡ください。
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-bottom">© 2026 ONE DAY MORE. All rights reserved.</div>
+  </div>
+</footer>
+
+</body>
+</html>
