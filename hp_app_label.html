@@ -3,12 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>名札・ラベル作成アプリ | ONE DAY MORE</title>
+<title>札つくり｜花屋のための立札・木札作成ツール | ONE DAY MORE</title>
+<meta name="description" content="花屋専用の立札・木札作成Webアプリ。縦書き対応、宛名・差出人管理、PDF出力、AIレイアウト提案。7日間無料トライアル。月額¥3,980から。">
 <style>
 :root {
   --bg: #ffffff; --bg-soft: #f8fafc; --bg-section: #f1f5f9;
   --text: #1f2937; --text-soft: #64748b; --text-muted: #94a3b8;
   --accent: #f97316; --accent-dark: #ea580c; --accent-soft: #ffedd5;
+  --fuda-green: #16a34a; --fuda-green-light: #f0fdf4;
   --border: #e5e7eb;
   --shadow: 0 1px 3px rgba(0,0,0,0.05);
   --shadow-lg: 0 10px 30px rgba(0,0,0,0.08);
@@ -30,20 +32,23 @@ a { color: inherit; text-decoration: none; }
 
 .app-hero {
   padding: 60px 24px 80px;
-  background: linear-gradient(135deg, #fff7ed 0%, #fef9c3 100%);
+  background: linear-gradient(135deg, #fff7ed 0%, #f0fdf4 100%);
 }
 .app-hero-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
 @media (max-width: 800px) { .app-hero-inner { grid-template-columns: 1fr; gap: 40px; } }
 .breadcrumb { font-size: 12px; color: var(--text-muted); margin-bottom: 24px; }
 .breadcrumb a { color: var(--text-soft); }
-.app-icon-large { width: 80px; height: 80px; background: var(--accent-soft); border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 44px; margin-bottom: 20px; }
-.app-tagline { display: inline-block; padding: 4px 12px; background: var(--accent-soft); color: var(--accent-dark); border-radius: 999px; font-size: 12px; font-weight: 600; margin-bottom: 16px; }
+.app-icon-large { width: 80px; height: 80px; background: var(--fuda-green-light); border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 44px; margin-bottom: 20px; }
+.app-tagline { display: inline-block; padding: 4px 12px; background: var(--fuda-green-light); color: var(--fuda-green); border-radius: 999px; font-size: 12px; font-weight: 600; margin-bottom: 16px; }
 .app-title { font-size: clamp(28px, 5vw, 44px); font-weight: 800; line-height: 1.3; margin-bottom: 16px; }
+.app-title .fuda-accent { color: var(--fuda-green); }
 .app-subtitle { font-size: 16px; color: var(--text-soft); margin-bottom: 32px; line-height: 1.8; }
 .app-price-block { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 24px; box-shadow: var(--shadow); margin-bottom: 24px; }
 .app-price-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
 .app-price { font-size: 32px; font-weight: 800; }
 .app-price small { font-size: 14px; font-weight: 500; color: var(--text-soft); }
+.app-price .price-alt { display: block; font-size: 14px; font-weight: 500; color: var(--text-soft); margin-top: 4px; }
+.trial-badge { display: inline-block; background: var(--fuda-green); color: white; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 6px; margin-bottom: 8px; }
 .app-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
 .btn { padding: 14px 28px; border-radius: 999px; font-size: 15px; font-weight: 600; cursor: pointer; border: 2px solid transparent; transition: all 0.25s; display: inline-flex; align-items: center; gap: 8px; font-family: inherit; }
 .btn-primary { background: var(--accent); color: white; }
@@ -53,8 +58,13 @@ a { color: inherit; text-decoration: none; }
 .app-meta { display: flex; gap: 24px; font-size: 13px; color: var(--text-soft); margin-top: 20px; flex-wrap: wrap; }
 .app-meta strong { color: var(--text); }
 
-.app-mockup { background: white; border-radius: 24px; box-shadow: var(--shadow-lg); padding: 12px; border: 1px solid var(--border); }
-.app-mockup-inner { background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%); border-radius: 16px; aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center; font-size: 100px; }
+/* 札サンプルプレビュー */
+.app-mockup { background: white; border-radius: 24px; box-shadow: var(--shadow-lg); padding: 24px; border: 1px solid var(--border); }
+.fuda-preview { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.fuda-card { background: linear-gradient(180deg, #fef9ec 0%, #fdf3d0 100%); border: 2px solid #d4a853; border-radius: 6px; padding: 14px 10px; width: 64px; min-height: 130px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-family: 'Hiragino Mincho ProN', serif; box-shadow: 2px 2px 8px rgba(0,0,0,0.1); }
+.fuda-card .k { font-size: 18px; font-weight: 700; color: #1a1a1a; writing-mode: vertical-rl; }
+.fuda-card .k.red { color: #dc2626; }
+.fuda-card .s { font-size: 9px; color: #555; writing-mode: vertical-rl; }
 
 .section { padding: 80px 24px; }
 .section.alt { background: var(--bg-section); }
@@ -70,29 +80,40 @@ a { color: inherit; text-decoration: none; }
 .feature-title { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
 .feature-desc { font-size: 14px; color: var(--text-soft); line-height: 1.8; }
 
-/* 用途 */
 .use-cases { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
-.use-case {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 24px;
-  text-align: center;
-}
+.use-case { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 24px; text-align: center; }
 .use-case-icon { font-size: 36px; margin-bottom: 12px; }
 .use-case-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
 .use-case-desc { font-size: 12px; color: var(--text-soft); }
 
-.screens { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
-.screen { aspect-ratio: 4/3; background: linear-gradient(135deg, var(--accent-soft), var(--bg-section)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 60px; border: 1px solid var(--border); }
-
-.steps { display: flex; flex-direction: column; gap: 24px; }
+.steps { display: flex; flex-direction: column; gap: 24px; max-width: 720px; margin: 0 auto; }
 .step { display: grid; grid-template-columns: 80px 1fr; gap: 24px; background: white; border: 1px solid var(--border); border-radius: 16px; padding: 28px; }
 @media (max-width: 600px) { .step { grid-template-columns: 60px 1fr; gap: 16px; padding: 20px; } }
 .step-num { width: 60px; height: 60px; background: var(--accent); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800; }
 @media (max-width: 600px) { .step-num { width: 44px; height: 44px; font-size: 18px; } }
 .step-content h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
 .step-content p { font-size: 14px; color: var(--text-soft); line-height: 1.8; }
+
+/* 料金プラン */
+.pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; max-width: 720px; margin: 0 auto; }
+.pricing-card { border: 2px solid var(--border); border-radius: 20px; padding: 36px 32px; transition: all .3s; position: relative; background: white; }
+.pricing-card.featured { border-color: var(--accent); background: var(--accent-soft); }
+.pricing-badge-top { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #fff; font-size: 12px; font-weight: 700; padding: 4px 16px; border-radius: 100px; white-space: nowrap; }
+.pricing-name { font-size: 14px; font-weight: 700; color: var(--text-soft); margin-bottom: 12px; }
+.pricing-price { font-size: 44px; font-weight: 800; line-height: 1; }
+.pricing-price sup { font-size: 20px; vertical-align: top; margin-top: 8px; }
+.pricing-price sub { font-size: 16px; font-weight: 500; color: var(--text-soft); }
+.pricing-note { font-size: 13px; color: var(--text-soft); margin-top: 6px; margin-bottom: 24px; }
+.pricing-ul { list-style: none; margin-bottom: 28px; }
+.pricing-ul li { font-size: 14px; color: var(--text); padding: 9px 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+.pricing-ul li:last-child { border: none; }
+.ck { color: var(--fuda-green); font-weight: 700; font-size: 16px; }
+.btn-plan { display: block; width: 100%; padding: 14px; border-radius: 10px; text-align: center; font-size: 15px; font-weight: 700; transition: all .2s; }
+.btn-plan.fill { background: var(--accent); color: white; }
+.btn-plan.fill:hover { background: var(--accent-dark); }
+.btn-plan.line { background: white; color: var(--text); border: 2px solid var(--border); }
+.btn-plan.line:hover { border-color: var(--accent); color: var(--accent); }
+.pricing-footnote { text-align: center; margin-top: 24px; font-size: 13px; color: var(--text-soft); }
 
 .cta-section { padding: 80px 24px; text-align: center; background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%); color: white; }
 .cta-title { font-size: clamp(22px, 3.5vw, 32px); font-weight: 800; margin-bottom: 16px; }
@@ -131,30 +152,36 @@ a { color: inherit; text-decoration: none; }
 <section class="app-hero">
   <div class="app-hero-inner">
     <div>
-      <div class="breadcrumb"><a href="index.html">ホーム</a> ＞ <a href="index.html#apps">アプリ</a> ＞ 名札・ラベル作成アプリ</div>
-      <div class="app-icon-large">🏷️</div>
-      <span class="app-tagline">事務・式典・イベント向け</span>
-      <h1 class="app-title">名札・ラベル作成アプリ</h1>
+      <div class="breadcrumb"><a href="index.html">ホーム</a> ＞ <a href="index.html#apps">アプリ</a> ＞ 札つくり</div>
+      <div class="app-icon-large">🌸</div>
+      <span class="app-tagline">花屋専用ツール</span>
+      <h1 class="app-title">立札・木札を<br><span class="fuda-accent">プロ品質</span>でかんたん作成</h1>
       <p class="app-subtitle">
-        縦書き対応・祝い文字・連名対応。<br>
-        結婚式、披露宴、開店祝い、贈答品の名札を美しく仕上げます。
+        縦書き対応、宛名・差出人管理、PDF出力まで。<br>
+        お花屋さんの札づくりをまるごと効率化するWebアプリです。
       </p>
       <div class="app-price-block">
-        <div class="app-price-label">通常価格</div>
-        <div class="app-price">¥3,800 <small>(税込)</small></div>
+        <div class="trial-badge">🌱 7日間無料トライアル</div>
+        <div class="app-price-label">月額プラン</div>
+        <div class="app-price">¥3,980 <small>/月（税込）</small></div>
+        <span class="price-alt">年額プランなら ¥39,800（月あたり ¥3,317・約17%オフ）</span>
       </div>
       <div class="app-buttons">
-        <a href="label-tool.html" class="btn btn-primary">体験版を試す →</a>
+        <a href="https://fuda-app-five.vercel.app/login" target="_blank" rel="noopener" class="btn btn-primary">7日間無料で試す →</a>
         <a href="#features" class="btn btn-secondary">機能を見る</a>
       </div>
       <div class="app-meta">
-        <span><strong>対応OS:</strong> Windows / macOS</span>
-        <span><strong>出力:</strong> Word / PDF / 印刷</span>
-        <span><strong>バージョン:</strong> 1.0</span>
+        <span><strong>形態:</strong> Webアプリ（インストール不要）</span>
+        <span><strong>動作環境:</strong> PC・タブレットのブラウザ</span>
+        <span><strong>支払い:</strong> クレジットカード</span>
       </div>
     </div>
     <div class="app-mockup">
-      <div class="app-mockup-inner">🏷️</div>
+      <div class="fuda-preview">
+        <div class="fuda-card"><span class="k red">御</span><span class="k red">祝</span><span class="s">田中商事</span></div>
+        <div class="fuda-card"><span class="k">開</span><span class="k">店</span><span class="k">御</span><span class="k">祝</span></div>
+        <div class="fuda-card"><span class="k red">祝</span><span class="k red">御</span><span class="k red">昇</span><span class="k red">進</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -162,39 +189,39 @@ a { color: inherit; text-decoration: none; }
 <section class="section" id="features">
   <div class="section-inner">
     <div class="section-label">FEATURES</div>
-    <h2 class="section-title">主な機能</h2>
-    <p class="section-sub">業務の現場で本当に必要な機能だけを厳選しました。</p>
+    <h2 class="section-title">花屋に必要な機能が<br>すべて揃っています</h2>
+    <p class="section-sub">立札づくりで困っていたことを、まとめて解決します。</p>
 
     <div class="features-grid">
       <div class="feature-card">
-        <div class="feature-icon">📜</div>
-        <h3 class="feature-title">縦書き対応</h3>
-        <p class="feature-desc">日本の式典文化に合わせた美しい縦書きレイアウト。文字バランスも自動調整。</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🎉</div>
-        <h3 class="feature-title">祝い文字テンプレート</h3>
-        <p class="feature-desc">「御祝」「祝御結婚」「開店祝い」など、シーン別の定型文字を即座に呼び出し。</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">👥</div>
-        <h3 class="feature-title">連名・宛先対応</h3>
-        <p class="feature-desc">送り主の連名、宛先、肩書きを柔軟に配置。会社・部署・役職にも対応。</p>
-      </div>
-      <div class="feature-card">
         <div class="feature-icon">📐</div>
-        <h3 class="feature-title">用紙サイズ多数対応</h3>
-        <p class="feature-desc">名刺・葉書・各種ラベル用紙に対応。市販の用紙にそのまま印刷できます。</p>
+        <h3 class="feature-title">サイズ豊富</h3>
+        <p class="feature-desc">木札（通常・大）・紙札・その他・カスタムサイズに対応。縦向き・横向きも切り替え可能。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✍️</div>
+        <h3 class="feature-title">縦書き完全対応</h3>
+        <p class="feature-desc">日本語の縦書きに最適化。フォントサイズ・文字色・レイアウトを自由に調整できます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏢</div>
+        <h3 class="feature-title">宛名・差出人管理</h3>
+        <p class="feature-desc">取引先情報を保存して呼び出し。過去の履歴から再利用もかんたんです。</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">📄</div>
-        <h3 class="feature-title">Word/PDF出力</h3>
-        <p class="feature-desc">作成したラベルをWord・PDFで保存。ブラウザから直接印刷もOK。</p>
+        <h3 class="feature-title">PDF出力・印刷</h3>
+        <p class="feature-desc">PDFで出力してそのままブラウザ印刷も可能。業者入稿にも対応します。</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">🌙</div>
-        <h3 class="feature-title">ダークモード対応</h3>
-        <p class="feature-desc">作業環境に合わせて切替可能。長時間の作業でも目が疲れにくい設計。</p>
+        <div class="feature-icon">🤖</div>
+        <h3 class="feature-title">AIレイアウト提案</h3>
+        <p class="feature-desc">入力内容から最適なレイアウトをAIが提案。見栄えのよい札をすばやく作れます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <h3 class="feature-title">ブラウザで動く</h3>
+        <p class="feature-desc">インストール不要。PC・タブレットのブラウザからいつでもアクセスできます。</p>
       </div>
     </div>
   </div>
@@ -204,105 +231,131 @@ a { color: inherit; text-decoration: none; }
   <div class="section-inner">
     <div class="section-label">USE CASES</div>
     <h2 class="section-title">こんなシーンで活躍</h2>
-    <p class="section-sub">日々のさまざまな場面でお使いいただけます。</p>
+    <p class="section-sub">花屋さんの立札・木札ニーズをまるごとカバーします。</p>
 
     <div class="use-cases">
       <div class="use-case">
-        <div class="use-case-icon">💐</div>
-        <div class="use-case-title">結婚式・披露宴</div>
-        <div class="use-case-desc">席札・ウェルカムボード</div>
-      </div>
-      <div class="use-case">
         <div class="use-case-icon">🎊</div>
-        <div class="use-case-title">開店祝い</div>
-        <div class="use-case-desc">スタンド花の名札</div>
-      </div>
-      <div class="use-case">
-        <div class="use-case-icon">🎁</div>
-        <div class="use-case-title">贈答品</div>
-        <div class="use-case-desc">のし紙・贈り物の札</div>
+        <div class="use-case-title">開店・開業祝い</div>
+        <div class="use-case-desc">スタンド花の立札・木札</div>
       </div>
       <div class="use-case">
         <div class="use-case-icon">🏢</div>
-        <div class="use-case-title">企業イベント</div>
-        <div class="use-case-desc">名札・席札・受付サイン</div>
+        <div class="use-case-title">移転・新装祝い</div>
+        <div class="use-case-desc">企業向け贈答花</div>
       </div>
       <div class="use-case">
-        <div class="use-case-icon">🏫</div>
-        <div class="use-case-title">学校・式典</div>
-        <div class="use-case-desc">来賓名札・座席表</div>
+        <div class="use-case-icon">💐</div>
+        <div class="use-case-title">楽屋花・公演祝い</div>
+        <div class="use-case-desc">舞台・劇場・ライブ</div>
       </div>
       <div class="use-case">
-        <div class="use-case-icon">📦</div>
-        <div class="use-case-title">商品ラベル</div>
-        <div class="use-case-desc">ハンドメイド・物販</div>
+        <div class="use-case-icon">🎂</div>
+        <div class="use-case-title">昇進・記念日</div>
+        <div class="use-case-desc">法人・個人贈答</div>
+      </div>
+      <div class="use-case">
+        <div class="use-case-icon">⚱️</div>
+        <div class="use-case-title">弔花・葬儀</div>
+        <div class="use-case-desc">慶弔いずれも対応</div>
+      </div>
+      <div class="use-case">
+        <div class="use-case-icon">🎁</div>
+        <div class="use-case-title">その他贈答</div>
+        <div class="use-case-desc">カスタムサイズも自由</div>
       </div>
     </div>
   </div>
 </section>
 
 <section class="section">
-  <div class="section-inner">
-    <div class="section-label">SCREENSHOTS</div>
-    <h2 class="section-title">画面イメージ</h2>
-    <p class="section-sub">直感的な操作で、誰でもすぐに使えます。</p>
-
-    <div class="screens">
-      <div class="screen">📝</div>
-      <div class="screen">🏷️</div>
-      <div class="screen">📄</div>
-    </div>
-  </div>
-</section>
-
-<section class="section alt">
   <div class="section-inner" style="max-width: 800px;">
     <div class="section-label">HOW TO USE</div>
-    <h2 class="section-title">使い方は簡単3ステップ</h2>
+    <h2 class="section-title">3ステップで完成</h2>
+    <p class="section-sub">むずかしい操作は一切ありません。</p>
 
     <div class="steps">
       <div class="step">
         <div class="step-num">1</div>
         <div class="step-content">
-          <h3>用紙サイズを選ぶ</h3>
-          <p>市販の名札用紙やラベル用紙のサイズから選択。サイズに合わせて自動レイアウト。</p>
+          <h3>サイズを選ぶ</h3>
+          <p>木札・紙札・カスタムから用途に合ったサイズを選びます。縦向き・横向きも設定できます。</p>
         </div>
       </div>
       <div class="step">
         <div class="step-num">2</div>
         <div class="step-content">
-          <h3>文字・宛名を入力</h3>
-          <p>「御祝」などの祝い文字、会社名、宛名、連名などをそれぞれ入力。フォントや大きさも調整可能。</p>
+          <h3>内容を入力</h3>
+          <p>頭書き・宛名・差出人を入力。ボタン一つで頭書きを追加、過去履歴からも呼び出せます。</p>
         </div>
       </div>
       <div class="step">
         <div class="step-num">3</div>
         <div class="step-content">
-          <h3>印刷 or Word/PDF出力</h3>
-          <p>そのまま印刷もOK、Word/PDF保存して別の人に共有もOK。出力の自由度が高いのが特徴。</p>
+          <h3>出力・印刷</h3>
+          <p>PDFで出力・ブラウザ印刷に対応。そのまま印刷店に入稿することも可能です。</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
+<section class="section alt">
+  <div class="section-inner">
+    <div class="section-label">PRICING</div>
+    <h2 class="section-title">シンプルな料金プラン</h2>
+    <p class="section-sub">まずは7日間、すべての機能を無料でお試しください。</p>
+
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-name">月額プラン</div>
+        <div class="pricing-price"><sup>¥</sup>3,980<sub> / 月</sub></div>
+        <div class="pricing-note">いつでも解約可能</div>
+        <ul class="pricing-ul">
+          <li><span class="ck">✓</span> すべての機能が使える</li>
+          <li><span class="ck">✓</span> 無制限の札作成</li>
+          <li><span class="ck">✓</span> PDF出力・印刷</li>
+          <li><span class="ck">✓</span> 履歴管理・再利用</li>
+          <li><span class="ck">✓</span> AIレイアウト提案</li>
+        </ul>
+        <a href="https://fuda-app-five.vercel.app/login" target="_blank" rel="noopener" class="btn-plan line">月額プランを始める</a>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-badge-top">🎉 2ヶ月分お得</div>
+        <div class="pricing-name">年額プラン</div>
+        <div class="pricing-price"><sup>¥</sup>39,800<sub> / 年</sub></div>
+        <div class="pricing-note">月あたり ¥3,317（約17%オフ）</div>
+        <ul class="pricing-ul">
+          <li><span class="ck">✓</span> すべての機能が使える</li>
+          <li><span class="ck">✓</span> 無制限の札作成</li>
+          <li><span class="ck">✓</span> PDF出力・印刷</li>
+          <li><span class="ck">✓</span> 履歴管理・再利用</li>
+          <li><span class="ck">✓</span> AIレイアウト提案</li>
+        </ul>
+        <a href="https://fuda-app-five.vercel.app/login" target="_blank" rel="noopener" class="btn-plan fill">年額プランを始める</a>
+      </div>
+    </div>
+    <p class="pricing-footnote">🌱 どちらのプランも最初の7日間は無料トライアル。クレジットカード不要で登録できます。</p>
+  </div>
+</section>
+
 <section class="cta-section">
-  <h2 class="cta-title">事務作業に「ちょっとした余白」を</h2>
-  <p class="cta-sub">面倒な名札作成をスマートに、美しく。</p>
-  <a href="hp_contact.html" class="btn btn-primary">ダウンロードする →</a>
+  <h2 class="cta-title">立札づくりに「ちょっとした余白」を</h2>
+  <p class="cta-sub">毎日の札づくりを、もっとはやく、もっと美しく。</p>
+  <a href="https://fuda-app-five.vercel.app/login" target="_blank" rel="noopener" class="btn btn-primary">7日間無料で試す →</a>
 </section>
 
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-brand">
       <div class="logo">ONE <span style="color: var(--accent);">DAY</span> MORE</div>
-      <p>あなたの一日に、ちょっとした余白を届けるシンプルなPCアプリブランド。</p>
+      <p>あなたの一日に、ちょっとした余白を届けるシンプルなWebアプリブランド。</p>
     </div>
     <div class="footer-col">
       <h4>サービス</h4>
       <ul>
+        <li><a href="hp_app_label.html">札つくり</a></li>
         <li><a href="hp_app_nail.html">ネイル提案アプリ</a></li>
-        <li><a href="hp_app_label.html">名札・ラベル作成</a></li>
       </ul>
     </div>
     <div class="footer-col">
