@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>会社情報 | ONE DAY MORE</title>
+<meta name="description" content="ONE DAY MOREの会社情報。ミッション、代表挨拶、会社概要をご紹介します。">
+<style>
+:root {
+  --bg: #ffffff;
+  --bg-soft: #f8fafc;
+  --bg-section: #f1f5f9;
+  --text: #1f2937;
+  --text-soft: #64748b;
+  --text-muted: #94a3b8;
+  --accent: #f97316;
+  --accent-dark: #ea580c;
+  --accent-soft: #ffedd5;
+  --border: #e5e7eb;
+  --shadow: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-lg: 0 10px 30px rgba(0,0,0,0.08);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Hiragino Sans', sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ヘッダー */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+.header-inner {
+  max-width: 1100px; margin: 0 auto;
+  padding: 16px 24px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.logo { font-size: 18px; font-weight: 800; letter-spacing: 0.04em; color: var(--text); }
+.logo .accent { color: var(--accent); }
+.nav { display: flex; gap: 28px; }
+.nav a { font-size: 14px; font-weight: 500; color: var(--text-soft); transition: color 0.2s; }
+.nav a:hover, .nav a.active { color: var(--accent); }
+.nav-cta {
+  padding: 8px 20px; background: var(--accent); color: white !important;
+  border-radius: 999px; font-weight: 600 !important;
+}
+.nav-cta:hover { background: var(--accent-dark); }
+.menu-btn { display: none; background: none; border: none; cursor: pointer; font-size: 22px; }
+@media (max-width: 720px) { .nav { display: none; } .menu-btn { display: block; } }
+
+/* ページヘッダー */
+.page-hero {
+  padding: 80px 24px 60px;
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% 0%, var(--accent-soft) 0%, transparent 60%),
+    var(--bg);
+}
+.page-hero h1 {
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+.page-hero p {
+  font-size: 16px;
+  color: var(--text-soft);
+}
+.breadcrumb {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+.breadcrumb a { color: var(--text-soft); }
+.breadcrumb a:hover { color: var(--accent); }
+
+/* セクション */
+.section { padding: 80px 24px; }
+.section.alt { background: var(--bg-section); }
+.section-inner { max-width: 900px; margin: 0 auto; }
+.section-label {
+  font-size: 12px; font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.section-title {
+  font-size: clamp(22px, 3.5vw, 32px);
+  font-weight: 800;
+  margin-bottom: 24px;
+}
+
+/* ミッション */
+.mission-text {
+  font-size: clamp(18px, 2.5vw, 24px);
+  font-weight: 600;
+  line-height: 1.8;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+.mission-text .accent { color: var(--accent); }
+.mission-desc {
+  font-size: 15px;
+  color: var(--text-soft);
+  line-height: 1.9;
+}
+
+/* 代表挨拶 */
+.greeting-block {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 40px;
+  align-items: start;
+}
+@media (max-width: 720px) {
+  .greeting-block { grid-template-columns: 1fr; }
+}
+.greeting-photo {
+  width: 100%;
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, var(--accent-soft) 0%, var(--bg-section) 100%);
+  border-radius: 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 80px;
+  color: var(--accent);
+}
+.greeting-text p {
+  margin-bottom: 16px;
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.9;
+}
+.greeting-name {
+  margin-top: 24px;
+  font-size: 14px;
+  color: var(--text-soft);
+}
+.greeting-name strong {
+  display: block;
+  font-size: 16px;
+  color: var(--text);
+  margin-top: 4px;
+}
+
+/* バリュー */
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+.value-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px 28px;
+  transition: all 0.3s;
+}
+.value-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+}
+.value-num {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 8px;
+  font-family: 'Inter', sans-serif;
+}
+.value-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.value-desc {
+  font-size: 14px;
+  color: var(--text-soft);
+  line-height: 1.8;
+}
+
+/* 会社概要テーブル */
+.info-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.info-table tr {
+  border-bottom: 1px solid var(--border);
+}
+.info-table tr:last-child { border-bottom: none; }
+.info-table th, .info-table td {
+  padding: 18px 24px;
+  text-align: left;
+  vertical-align: top;
+}
+.info-table th {
+  background: var(--bg-soft);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-soft);
+  width: 30%;
+  letter-spacing: 0.04em;
+}
+.info-table td {
+  font-size: 15px;
+  color: var(--text);
+}
+@media (max-width: 600px) {
+  .info-table th, .info-table td { padding: 14px 16px; font-size: 13px; }
+  .info-table th { width: 35%; }
+}
+
+/* CTA */
+.cta-section {
+  padding: 80px 24px;
+  text-align: center;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  color: white;
+}
+.cta-title {
+  font-size: clamp(22px, 3.5vw, 32px);
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+.cta-sub { font-size: 15px; opacity: 0.9; margin-bottom: 32px; }
+.btn {
+  padding: 14px 32px;
+  border-radius: 999px;
+  font-size: 15px; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: all 0.25s;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+.cta-section .btn {
+  background: white;
+  color: var(--accent-dark);
+}
+.cta-section .btn:hover {
+  background: var(--bg-section);
+  transform: translateY(-2px);
+}
+
+/* フッター */
+.footer { background: #0f172a; color: #cbd5e1; padding: 60px 24px 30px; }
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+}
+@media (max-width: 720px) { .footer-inner { grid-template-columns: 1fr; } }
+.footer-brand .logo { color: white; font-size: 22px; }
+.footer-brand p { margin-top: 12px; font-size: 13px; color: #94a3b8; line-height: 1.7; }
+.footer-col h4 {
+  color: white; font-size: 13px; font-weight: 600;
+  letter-spacing: 0.06em; margin-bottom: 16px;
+}
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: 10px; }
+.footer-col a { color: #94a3b8; font-size: 13px; transition: color 0.2s; }
+.footer-col a:hover { color: var(--accent); }
+.footer-bottom {
+  max-width: 1100px; margin: 40px auto 0;
+  padding-top: 24px; border-top: 1px solid #1e293b;
+  text-align: center; font-size: 12px; color: #64748b;
+}
+</style>
+</head>
+<body>
+
+<!-- ヘッダー -->
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">ONE <span class="accent">DAY</span> MORE</a>
+    <nav class="nav">
+      <a href="index.html#apps">アプリ</a>
+      <a href="hp_about.html" class="active">会社情報</a>
+      <a href="hp_news.html">お知らせ</a>
+      <a href="hp_contact.html" class="nav-cta">お問い合わせ</a>
+    </nav>
+    <button class="menu-btn" aria-label="メニュー">☰</button>
+  </div>
+</header>
+
+<!-- ページヒーロー -->
+<section class="page-hero">
+  <div style="max-width: 800px; margin: 0 auto;">
+    <div class="breadcrumb">
+      <a href="index.html">ホーム</a> ＞ 会社情報
+    </div>
+    <h1>About ONE DAY MORE</h1>
+    <p>あなたの一日に、ちょっとした余白を、すべての現場へ。</p>
+  </div>
+</section>
+
+<!-- ミッション -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-label">OUR MISSION</div>
+    <h2 class="section-title">ミッション</h2>
+    <p class="mission-text">
+      「<span class="accent">あなたの一日に、ちょっとした余白を。</span>」
+    </p>
+    <p class="mission-desc">
+      ONE DAY MORE は、現場で働くすべての人が「もう少しゆとりがあったらいいのに」と感じる瞬間を減らすために生まれました。<br><br>
+      一日が25時間あったら、もっと丁寧に向き合える。もっと自分の時間が持てる。そんな「ちょっとした余白」を、テクノロジーで生み出す。<br><br>
+      ネイル・美容業界、クリエイティブ業界、事務職など、現場の小さな困りごとに寄り添い、シンプルで使いやすいPCアプリを開発・提供しています。
+    </p>
+  </div>
+</section>
+
+<!-- 代表挨拶 -->
+<section class="section alt">
+  <div class="section-inner">
+    <div class="section-label">MESSAGE</div>
+    <h2 class="section-title">代表挨拶</h2>
+    <div class="greeting-block">
+      <div class="greeting-photo">👤</div>
+      <div class="greeting-text">
+        <p>
+          ONE DAY MORE のページをご覧いただき、ありがとうございます。
+        </p>
+        <p>
+          私たちは、現場で本当に必要とされるツールだけを丁寧に作りたいと考えています。多機能で複雑なソフトウェアではなく、誰でもすぐに使い始められて、日々の業務に「あと一日分の余裕」を生み出すような、シンプルで実用的なアプリ。
+        </p>
+        <p>
+          ネイル業界での提案ツール、事務作業のラベル作成、これからも現場の声を聞きながら新しいアプリを増やしていきます。皆さまの毎日が少しでも軽やかになるよう、誠実にものづくりを続けてまいります。
+        </p>
+        <div class="greeting-name">
+          ONE DAY MORE 代表
+          <strong>山田</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 大切にしている価値観 -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-label">OUR VALUES</div>
+    <h2 class="section-title">大切にしていること</h2>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-num">01</div>
+        <div class="value-title">シンプルであること</div>
+        <p class="value-desc">
+          機能を増やすより、無くすことを大事に。本当に必要な機能だけに集中したアプリを作ります。
+        </p>
+      </div>
+      <div class="value-card">
+        <div class="value-num">02</div>
+        <div class="value-title">現場の声を聞くこと</div>
+        <p class="value-desc">
+          実際に使う人の声に耳を傾け、机上の空論ではなく、日々の業務に根ざした改善を続けます。
+        </p>
+      </div>
+      <div class="value-card">
+        <div class="value-num">03</div>
+        <div class="value-title">手の届く価格で</div>
+        <p class="value-desc">
+          個人事業主や小さな店舗でも気軽に導入できる、適正な価格設定にこだわります。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 会社概要 -->
+<section class="section alt">
+  <div class="section-inner">
+    <div class="section-label">COMPANY INFO</div>
+    <h2 class="section-title">会社概要</h2>
+    <table class="info-table">
+      <tr>
+        <th>屋号</th>
+        <td>ONE DAY MORE</td>
+      </tr>
+      <tr>
+        <th>代表者</th>
+        <td>山田</td>
+      </tr>
+      <tr>
+        <th>所在地</th>
+        <td>東京都内</td>
+      </tr>
+      <tr>
+        <th>開業</th>
+        <td>2026年</td>
+      </tr>
+      <tr>
+        <th>事業内容</th>
+        <td>
+          PCアプリケーションの企画・開発・販売<br>
+          ・ネイル提案アプリの提供<br>
+          ・名札／ラベル作成アプリの提供<br>
+          ・受託開発・カスタマイズ対応
+        </td>
+      </tr>
+      <tr>
+        <th>連絡先</th>
+        <td>
+          <a href="hp_contact.html" style="color: var(--accent);">お問い合わせフォーム</a>からご連絡ください
+        </td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2 class="cta-title">お気軽にお問い合わせください</h2>
+  <p class="cta-sub">アプリ導入のご相談・カスタマイズ要望もお待ちしています。</p>
+  <a href="hp_contact.html" class="btn">お問い合わせ →</a>
+</section>
+
+<!-- フッター -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">ONE <span style="color: var(--accent);">DAY</span> MORE</div>
+      <p>あなたの一日に、ちょっとした余白を届けるシンプルなPCアプリブランド。</p>
+    </div>
+    <div class="footer-col">
+      <h4>サービス</h4>
+      <ul>
+        <li><a href="index.html#apps">ネイル提案アプリ</a></li>
+        <li><a href="index.html#apps">名札・ラベル作成</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>会社情報</h4>
+      <ul>
+        <li><a href="hp_about.html">私たちについて</a></li>
+        <li><a href="hp_news.html">お知らせ</a></li>
+        <li><a href="hp_contact.html">お問い合わせ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>規約・法的情報</h4>
+      <ul>
+        <li><a href="hp_legal.html">特定商取引法</a></li>
+        <li><a href="hp_privacy.html">プライバシーポリシー</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 ONE DAY MORE. All rights reserved.
+  </div>
+</footer>
+
+</body>
+</html>
