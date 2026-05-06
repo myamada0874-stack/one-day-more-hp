@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>お問い合わせ | ONE DAY MORE</title>
+<style>
+:root {
+  --bg: #ffffff; --bg-soft: #f8fafc; --bg-section: #f1f5f9;
+  --text: #1f2937; --text-soft: #64748b; --text-muted: #94a3b8;
+  --accent: #f97316; --accent-dark: #ea580c; --accent-soft: #ffedd5;
+  --border: #e5e7eb;
+  --shadow: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-lg: 0 10px 30px rgba(0,0,0,0.08);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Hiragino Sans', sans-serif;
+  color: var(--text); background: var(--bg); line-height: 1.7;
+}
+a { color: inherit; text-decoration: none; }
+
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.95); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+.header-inner {
+  max-width: 1100px; margin: 0 auto; padding: 16px 24px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.logo { font-size: 18px; font-weight: 800; letter-spacing: 0.04em; }
+.logo .accent { color: var(--accent); }
+.nav { display: flex; gap: 28px; }
+.nav a { font-size: 14px; color: var(--text-soft); }
+.nav a:hover, .nav a.active { color: var(--accent); }
+.nav-cta { padding: 8px 20px; background: var(--accent); color: white !important; border-radius: 999px; font-weight: 600 !important; }
+.menu-btn { display: none; background: none; border: none; font-size: 22px; cursor: pointer; }
+@media (max-width: 720px) { .nav { display: none; } .menu-btn { display: block; } }
+
+.page-hero {
+  padding: 80px 24px 60px; text-align: center;
+  background: radial-gradient(circle at 50% 0%, var(--accent-soft) 0%, transparent 60%), var(--bg);
+}
+.page-hero h1 { font-size: clamp(28px, 5vw, 44px); font-weight: 800; margin-bottom: 16px; }
+.page-hero p { font-size: 16px; color: var(--text-soft); }
+.breadcrumb { font-size: 12px; color: var(--text-muted); margin-bottom: 24px; }
+.breadcrumb a { color: var(--text-soft); }
+
+.section { padding: 60px 24px; }
+.section.alt { background: var(--bg-section); }
+.section-inner { max-width: 720px; margin: 0 auto; }
+.section-label {
+  font-size: 12px; font-weight: 700; color: var(--accent);
+  letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 12px;
+}
+.section-title { font-size: clamp(22px, 3.5vw, 32px); font-weight: 800; margin-bottom: 24px; }
+
+/* フォーム */
+.form-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: var(--shadow);
+}
+@media (max-width: 600px) { .form-card { padding: 24px; } }
+.form-row { margin-bottom: 24px; }
+.form-row label {
+  display: block;
+  font-size: 13px; font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.form-row label .required {
+  color: var(--accent);
+  font-weight: 700;
+  margin-left: 4px;
+}
+.form-row input,
+.form-row select,
+.form-row textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: inherit;
+  transition: border-color 0.2s;
+  background: var(--bg-soft);
+  color: var(--text);
+}
+.form-row input:focus,
+.form-row select:focus,
+.form-row textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: white;
+  box-shadow: 0 0 0 4px rgba(249,115,22,0.12);
+}
+.form-row textarea { resize: vertical; min-height: 120px; }
+.form-help { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+.form-submit {
+  width: 100%; padding: 16px;
+  background: var(--accent); color: white;
+  border: none; border-radius: 999px;
+  font-size: 16px; font-weight: 700; font-family: inherit;
+  cursor: pointer;
+  transition: all 0.25s;
+  margin-top: 12px;
+}
+.form-submit:hover {
+  background: var(--accent-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(249,115,22,0.3);
+}
+.form-note {
+  font-size: 13px; color: var(--text-soft);
+  text-align: center; margin-top: 20px;
+}
+
+/* チェックボックス */
+.checkbox-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-bottom: 24px;
+}
+.checkbox-row input { margin-top: 4px; accent-color: var(--accent); }
+.checkbox-row label { font-size: 13px; color: var(--text-soft); cursor: pointer; }
+.checkbox-row label a { color: var(--accent); text-decoration: underline; }
+
+/* FAQ */
+.faq-list { display: flex; flex-direction: column; gap: 12px; }
+.faq-item {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.faq-q {
+  padding: 20px 24px;
+  font-weight: 600; font-size: 15px;
+  cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  user-select: none;
+  transition: background 0.2s;
+}
+.faq-q:hover { background: var(--bg-soft); }
+.faq-q::after {
+  content: '+';
+  font-size: 22px; color: var(--accent);
+  font-weight: 400; transition: transform 0.3s;
+}
+.faq-item.open .faq-q::after { transform: rotate(45deg); }
+.faq-a {
+  padding: 0 24px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  font-size: 14px; color: var(--text-soft); line-height: 1.8;
+}
+.faq-item.open .faq-a {
+  padding: 0 24px 20px;
+  max-height: 500px;
+}
+
+.footer { background: #0f172a; color: #cbd5e1; padding: 60px 24px 30px; }
+.footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
+@media (max-width: 720px) { .footer-inner { grid-template-columns: 1fr; } }
+.footer-brand .logo { color: white; font-size: 22px; }
+.footer-brand p { margin-top: 12px; font-size: 13px; color: #94a3b8; line-height: 1.7; }
+.footer-col h4 { color: white; font-size: 13px; font-weight: 600; letter-spacing: 0.06em; margin-bottom: 16px; }
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: 10px; }
+.footer-col a { color: #94a3b8; font-size: 13px; }
+.footer-col a:hover { color: var(--accent); }
+.footer-bottom { max-width: 1100px; margin: 40px auto 0; padding-top: 24px; border-top: 1px solid #1e293b; text-align: center; font-size: 12px; color: #64748b; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">ONE <span class="accent">DAY</span> MORE</a>
+    <nav class="nav">
+      <a href="index.html#apps">アプリ</a>
+      <a href="hp_about.html">会社情報</a>
+      <a href="hp_news.html">お知らせ</a>
+      <a href="hp_contact.html" class="nav-cta">お問い合わせ</a>
+    </nav>
+    <button class="menu-btn">☰</button>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div style="max-width: 800px; margin: 0 auto;">
+    <div class="breadcrumb"><a href="index.html">ホーム</a> ＞ お問い合わせ</div>
+    <h1>お問い合わせ</h1>
+    <p>アプリのご質問・カスタマイズのご相談など、お気軽にどうぞ。</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-inner">
+    <div class="section-label">CONTACT FORM</div>
+    <h2 class="section-title">お問い合わせフォーム</h2>
+
+    <div class="form-card">
+      <form id="contactForm" onsubmit="event.preventDefault(); alert('メッセージを受け付けました。返信をお待ちください。'); this.reset();">
+        <div class="form-row">
+          <label>お名前 <span class="required">*</span></label>
+          <input type="text" name="name" placeholder="山田 太郎" required>
+        </div>
+
+        <div class="form-row">
+          <label>メールアドレス <span class="required">*</span></label>
+          <input type="email" name="email" placeholder="example@email.com" required>
+          <div class="form-help">返信先のメールアドレスをご入力ください</div>
+        </div>
+
+        <div class="form-row">
+          <label>会社名・店舗名（任意）</label>
+          <input type="text" name="company" placeholder="株式会社○○ / ○○ネイルサロン">
+        </div>
+
+        <div class="form-row">
+          <label>お問い合わせ種別 <span class="required">*</span></label>
+          <select name="type" required>
+            <option value="">選択してください</option>
+            <option>アプリの購入・ダウンロードについて</option>
+            <option>動作不具合のご報告</option>
+            <option>カスタマイズ・受託開発のご相談</option>
+            <option>その他のお問い合わせ</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label>お問い合わせ内容 <span class="required">*</span></label>
+          <textarea name="message" placeholder="ご質問・ご相談内容をご記入ください" required></textarea>
+        </div>
+
+        <div class="checkbox-row">
+          <input type="checkbox" id="agree" required>
+          <label for="agree">
+            <a href="hp_privacy.html">プライバシーポリシー</a>に同意します
+          </label>
+        </div>
+
+        <button type="submit" class="form-submit">送信する</button>
+        <p class="form-note">2営業日以内にご返信いたします</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="section-inner">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-title">よくある質問</h2>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">アプリはどのOSで動きますか？</div>
+        <div class="faq-a">Windows 10以上、macOS 12以上に対応しています。動作環境の詳細は各アプリの紹介ページをご確認ください。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">購入後のダウンロード方法は？</div>
+        <div class="faq-a">カード決済完了後、自動的にダウンロード画面が表示されます。また、ご登録のメールアドレスにダウンロードリンクをお送りします。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">返金は可能ですか？</div>
+        <div class="faq-a">デジタル製品の性質上、ダウンロード後の返金は原則お受けできません。動作不具合の場合は個別に対応いたしますので、お問い合わせください。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">複数のPCで使えますか？</div>
+        <div class="faq-a">アプリにより異なります。各アプリの利用規約をご確認ください。複数台での利用が必要な場合はご相談ください。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">法人での導入や請求書払いは可能ですか？</div>
+        <div class="faq-a">対応可能です。お問い合わせフォームよりご連絡ください。請求書発行や見積書の準備をいたします。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">カスタマイズや独自開発は依頼できますか？</div>
+        <div class="faq-a">ご相談承ります。お問い合わせフォームより、ご希望の内容をお知らせください。お見積もりをご提示いたします。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">アップデート費用はかかりますか？</div>
+        <div class="faq-a">マイナーアップデート（バグ修正・機能改善）は無料で提供します。メジャーアップデートは別途ご案内する場合があります。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">ONE <span style="color: var(--accent);">DAY</span> MORE</div>
+      <p>あなたの一日に、ちょっとした余白を届けるシンプルなPCアプリブランド。</p>
+    </div>
+    <div class="footer-col">
+      <h4>サービス</h4>
+      <ul>
+        <li><a href="index.html#apps">アプリ一覧</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>会社情報</h4>
+      <ul>
+        <li><a href="hp_about.html">私たちについて</a></li>
+        <li><a href="hp_news.html">お知らせ</a></li>
+        <li><a href="hp_contact.html">お問い合わせ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>規約・法的情報</h4>
+      <ul>
+        <li><a href="hp_legal.html">特定商取引法</a></li>
+        <li><a href="hp_privacy.html">プライバシーポリシー</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 ONE DAY MORE. All rights reserved.</div>
+</footer>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => q.parentElement.classList.toggle('open'));
+});
+</script>
+</body>
+</html>
